@@ -1,0 +1,14 @@
+{
+  "name": "nodejs-console-app1",
+  "version": "0.0.0",
+  "description": "NodejsConsoleApp1",
+  "main": "app.js",
+  "author": {
+    "name": "vasudev007"
+  },
+  "dependencies": {
+    "mqtt": "^2.7.1",
+    "nodemailer": "^4.0.1",
+    "twilio": "^3.0.0"
+  }
+}
