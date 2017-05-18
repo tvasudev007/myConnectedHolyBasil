@@ -125,10 +125,21 @@ mqttClient.on('message', function (topic, message) {
 cron.schedule('0 */6 * * *', function(){
 	emailSend(guest,"Status",moisture+" % ");
 	emailSend(owner,"Status",moisture+" % ");
-	console.log('running a task every minute '+moisture+" % ");
+	emailSend("anuja.bhor@lntinfotech.com","Status from Holy Basil",moisture+" % ");
+	emailSend("vasudev.tadavarthy@lntinfotech.com","Status from Holy Basil",moisture+" % ");
+	emailSend("prateek.bansal@lntinfotech.com","Status from Holy Basil",moisture+" % ");
+	emailSend("akshay.narwadkar@lntinfotech.com","Status from Holy Basil",moisture+" % ");
+	emailSend("akash.vishnoi@lntinfotech.com","Status from Holy Basil",moisture+" % ");
+	
+
+	console.log('running a task every 6 hrs '+moisture+" % ");
 });
-
-
+	/* emailSend("anuja.bhor@lntinfotech.com","Status from Holy Basil",moisture+" % ");
+	emailSend("vasudev.tadavarthy@lntinfotech.com","Status from Holy Basil",moisture+" % ");
+	emailSend("prateek.bansal@lntinfotech.com","Status from Holy Basil",moisture+" % ");
+	emailSend("akshay.narwadkar@lntinfotech.com","Status from Holy Basil",moisture+" % ");
+	emailSend("akash.vishnoi@lntinfotech.com","Status from Holy Basil",moisture+" % ");
+	emailSend("vasudev.tadavarthy@lntinfotech.com","Status",moisture+" % "); */
 
 var server = app.listen(3000, function (){
   console.log("Calling app.listen's callback function.");
