@@ -12,6 +12,7 @@ var authToken = 'e925cbe022799c01dc9709c200a819bd';   // Your Auth Token from ww
 var sendSMS =[];
 var low = 30;
 var crtiticallyLow = 20;
+var moisture =0;
 var twilioClient = twilio(accountSid, authToken);
 
 mqttClient.on('connect', function () {
@@ -48,7 +49,10 @@ app.get('/calibrate/critical/:criValue', function (req, res) {
 	}
   res.send("Set low Value is : "+req.params.criValue)
 })
-
+app.get('/mositure/', function (req, res) {
+		
+  res.send("current mositure Value is : "+moisture);
+})
 
 
 mqttClient.on('message', function (topic, message) {
@@ -56,6 +60,7 @@ mqttClient.on('message', function (topic, message) {
     console.log(message.toString());
     var array = message.toString().split(',');
     console.log("Moisture in % =", array[0])
+	moisture = array[0];
 	var smsContent = 'SOS from Holy Basil: About to die..please save me :-(' + array[0] + '% ,  temperature :' + array[1] + ' Celcius, ' + 'Humidity : ' + array[2] + '%';
     if (array[0]<crtiticallyLow){
         twilioClient.messages.create({
