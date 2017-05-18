@@ -3,9 +3,39 @@ var twilio = require('twilio');
 var mqtt = require('mqtt')
 var https = require('https');
 var http = require('http');
-var express = require('express')
+var express = require('express');
+var cron = require('node-cron');
 var app = express()
 var mqttClient = mqtt.connect('tcp://iot.eclipse.org:1883');
+var nodemailer = require('nodemailer');
+var owner="tvasudev17@gmail.com";
+var guest="pratikbansal15@gmail.com";
+
+var smtpTransport = nodemailer.createTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
+    auth: {  user: "myconnectedthings007@gmail.com",  pass: "tvasudev007"    },
+	tls: { rejectUnauthorized: false }
+});
+
+
+
+var emailSend = function(address,subject,message){
+var mailOptions = {   to : address, subject : subject,  text : message}
+	
+	smtpTransport.sendMail(mailOptions, function(error, response)
+{
+	if(error)
+	{
+	console.log(error);
+
+	}
+	else{
+	console.log("Message sent: " + response.message);
+
+	}
+});
+}
 
 var accountSid = 'AC648d6e480e556571b1203dc06e6875ac'; // Your Account SID from www.twilio.com/console
 var authToken = 'e925cbe022799c01dc9709c200a819bd';   // Your Auth Token from www.twilio.com/console
@@ -63,6 +93,7 @@ mqttClient.on('message', function (topic, message) {
 	moisture = array[0];
 	var smsContent = 'SOS from Holy Basil: About to die..please save me :-(' + array[0] + '% ,  temperature :' + array[1] + ' Celcius, ' + 'Humidity : ' + array[2] + '%';
     if (array[0]<crtiticallyLow){
+		emailSend(owner,"Crtical Warning",smsContent);
         twilioClient.messages.create({
             body: smsContent,
             to: '+918121516815',  // Text this number
@@ -73,6 +104,7 @@ mqttClient.on('message', function (topic, message) {
     else if (array[0] < low) {
         var smsContent = 'Warning from Holy Basil : Current status moisture :' + array[0] + '% ,  temperature :' + array[1] + ' Celcius, ' + 'Humidity : ' + array[2] + '%';
         console.log(smsContent);
+		emailSend(guest,"Warning",smsContent);
         twilioClient.messages.create({
             body: smsContent,
             to: '+917045698069',  // Text this number
@@ -88,6 +120,13 @@ mqttClient.on('message', function (topic, message) {
     }
     //mqttClient.end()
 })
+
+
+cron.schedule('0 */6 * * *', function(){
+	emailSend(guest,"Status",moisture+" % ");
+	emailSend(owner,"Status",moisture+" % ");
+	console.log('running a task every minute '+moisture+" % ");
+});
 
 
 
