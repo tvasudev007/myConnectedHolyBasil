@@ -15,3 +15,5 @@ APIs
 /low/ : to get current low valuw
 
 /critical/ : to get current critical value
+
+current IP: http://13.71.121.99:3000
