@@ -16,4 +16,4 @@ APIs
 
 /critical/ : to get current critical value
 
-current IP: http://13.71.121.99:3000
+current IP: http://31.17.121.99:3000
